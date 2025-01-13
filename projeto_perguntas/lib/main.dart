@@ -9,25 +9,42 @@ main () {
 
 class _PerguntaAppState extends State<PerguntaApp>{
 
+  var _pontuacaoTotal = 0;
   var perguntaSelecionada = 0;
   final _perguntas = const [
       {
         'texto': 'Qual sua cor favorita?',
-        'respostas': ['Preto', 'Vermelho', 'Verde', 'Branco'],
+        'respostas': [
+          {'texto': 'Preto', 'pontuacao': 3},
+          {'texto': 'Vermelho', 'pontuacao': 5},
+          {'texto': 'Verde','pontuacao': 1},
+          {'texto': 'Branco','pontuacao': 2},
+          ],
       },
       {
         'texto': 'Qual é o seu animal favorito?',
-        'respostas': ['Coelho', 'Cobra', 'Elefante', 'Leão'],
+        'respostas': [
+          {'texto':'Coelho', 'pontuacao': 3 },
+          {'texto':'Cobra', 'pontuacao': 7 },
+          {'texto':'Leão', 'pontuacao': 1 },
+          {'texto':'Tigre', 'pontuacao': 3 },
+        ],
         },
         {
         'texto': 'Qual é o seu instrutor favorito?',
-        'respostas': ['Maria', 'João', 'Leo', 'Pedro'],
+        'respostas': [
+          {'texto':'Maria', 'pontuacao': 3 },
+          {'texto':'João', 'pontuacao': 2 },
+          {'texto':'Luan', 'pontuacao': 1 },
+          {'texto':'Giovanna', 'pontuacao': 6},
+          ],
         },
     ];
-  void _responder() {
+  void _responder(int pontuacao) {
     if(temPerguntaSelecionada){
       setState(() {
       perguntaSelecionada++;
+      _pontuacaoTotal += pontuacao;
       });
     }
   }
@@ -38,7 +55,7 @@ class _PerguntaAppState extends State<PerguntaApp>{
 
   @override
   Widget build(BuildContext context) {
-    List<String> respostas = temPerguntaSelecionada ? _perguntas[perguntaSelecionada].cast()['respostas'] : [];
+    List<Map<String, Object>> respostas = temPerguntaSelecionada ? _perguntas[perguntaSelecionada].cast()['respostas'] as List<Map<String, Object>> : [];
 
     return MaterialApp(
       home: Scaffold(
@@ -50,7 +67,7 @@ class _PerguntaAppState extends State<PerguntaApp>{
           perguntas: _perguntas, perguntaSelecionada: perguntaSelecionada, 
           quandoResponder: _responder
           ) 
-        : Resultado(),S
+        : Resultado(_pontuacaoTotal),
       ),
     );
   }
